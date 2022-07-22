@@ -1,25 +1,11 @@
-import client from "../src/client";
 import bcrypt from "bcrypt";
+import { Resolvers } from "src/types";
+import { CreateAccountProps, CreateAccountReturn } from "./createUserAccount";
 
-type CreateAccountProps = {
-  username: string;
-  email: string;
-  name: string;
-  location: string;
-  password: string;
-  avatarURL: string;
-  githubUsername: string;
-};
-
-type CreateAccountReturn = {
-  ok: boolean;
-  error?: string;
-};
-
-export default {
-  Mutations: {
-    createAccount: async (
-      _: undefined,
+const resolvers: Resolvers = {
+  Mutation: {
+    createUserAccount: async (
+      _,
       {
         username,
         email,
@@ -28,10 +14,11 @@ export default {
         password,
         avatarURL,
         githubUsername,
-      }: CreateAccountProps
+      }: CreateAccountProps,
+      { client }
     ): Promise<CreateAccountReturn> => {
       try {
-        const isExistingUser = await client.user.findFirst({
+        const isExistingUser = await client.coffeeUser.findFirst({
           where: {
             OR: [{ username }, { email }, { githubUsername }],
           },
@@ -42,7 +29,7 @@ export default {
 
         const uglyPassword = await bcrypt.hash(password, 10);
 
-        await client.user.create({
+        await client.coffeeUser.create({
           data: {
             username,
             email,
@@ -63,3 +50,5 @@ export default {
     },
   },
 };
+
+export default resolvers;
