@@ -11,12 +11,14 @@ datasource db {
 }
 
 model CoffeeUser {
-  id Int @id @default(autoincrement())
-  username String @unique
-  email String @unique
-  name String
-  location String
-  password String
-  avatarURL String
-  githubUsername String @unique
+  id             Int          @id @default(autoincrement())
+  username       String       @unique
+  email          String       @unique
+  name           String
+  location       String
+  password       String
+  avatarURL      String
+  following      CoffeeUser[] @relation("FollowRelation")
+  followers      CoffeeUser[] @relation("FollowRelation")
+  githubUsername String       @unique
 }

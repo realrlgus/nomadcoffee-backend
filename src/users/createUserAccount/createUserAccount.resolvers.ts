@@ -1,6 +1,9 @@
 import bcrypt from "bcrypt";
-import { Resolvers } from "src/types";
-import { CreateAccountProps, CreateAccountReturn } from "./createUserAccount";
+import { Resolvers } from "types/global";
+import {
+  CreateAccountProps,
+  CreateAccountReturn,
+} from "../../../types/users/createUserAccount";
 
 const resolvers: Resolvers = {
   Mutation: {

@@ -1,17 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Resolvers } from "src/types";
-
-type LoginProps = {
-  username: string;
-  password: string;
-};
-
-type LoginReturn = {
-  ok: Boolean;
-  error?: string;
-  token?: string;
-};
+import { Resolvers } from "types/global";
+import { LoginProps, LoginReturn } from "types/users/login";
 
 const resolvers: Resolvers = {
   Mutation: {

@@ -1,23 +1,8 @@
 import bcrypt from "bcrypt";
 import { createWriteStream } from "fs";
-import { GraphQLUpload } from "graphql-upload/GraphQLUpload.js";
-import { Resolvers } from "src/types";
+import { DefaultReturn, Resolvers } from "types/global";
+import { EditCoffeeProfileArgs } from "types/users/editCoffeeProfile";
 import { protectedResolver } from "../users.utils";
-
-type EditCoffeeProfileArgs = {
-  username?: string;
-  name?: string;
-  location?: string;
-  password?: string;
-  email?: string;
-  githubUsername?: string;
-  avatar?: GraphQLUpload;
-};
-
-type EditCoffeeProfileReturn = {
-  ok: Boolean;
-  error?: string;
-};
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -34,7 +19,7 @@ const resolvers: Resolvers = {
           avatar,
         }: EditCoffeeProfileArgs,
         { loggedInUser, client }
-      ): Promise<EditCoffeeProfileReturn> => {
+      ): Promise<DefaultReturn> => {
         try {
           let avatarUrl = null;
           if (avatar) {
@@ -53,7 +38,7 @@ const resolvers: Resolvers = {
 
           const uglyPassword =
             password && (await bcrypt.hash(password as string, 10));
-          await client.user.update({
+          await client.coffeeUser.update({
             where: {
               id: loggedInUser.id,
             },

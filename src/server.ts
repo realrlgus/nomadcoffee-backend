@@ -5,6 +5,7 @@ import { ApolloServer } from "apollo-server-express";
 import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
 import client from "./client";
 import { typeDefs, resolvers } from "./schema";
+import { getUser } from "./users/users.utils";
 
 const PORT = process.env.PORT;
 
@@ -15,6 +16,7 @@ const startServer = async () => {
     cache: "bounded",
     context: async ({ req }) => {
       return {
+        loggedInUser: await getUser(req.headers.token),
         client,
       };
     },
